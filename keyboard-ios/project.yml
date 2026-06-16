@@ -1,0 +1,73 @@
+name: VACKeyboard
+options:
+  bundleIdPrefix: com.vac
+  deploymentTarget:
+    iOS: "16.0"
+  defaultConfig: Debug
+  generateEmptyDirectories: true
+
+schemes:
+  VACKeyboard:
+    build:
+      targets:
+        VACKeyboard: all
+        VACKeyboardExt: all
+    run:
+      config: Debug
+      askForAppToLaunch: false
+    test:
+      config: Debug
+    archive:
+      config: Release
+
+settings:
+  SWIFT_VERSION: "5.9"
+  IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+  ENABLE_BITCODE: "NO"
+  DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+  ENABLE_PREVIEWS: "NO"
+  SWIFT_ENABLE_INCREMENTAL_DEPENDENCIES: "NO"
+
+targets:
+
+  # ── Containing App ──────────────────────────────────────────────────────────
+  VACKeyboard:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    bundleId: com.siyaagrawal.vackeyboard
+    sources:
+      - path: VACKeyboard
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.siyaagrawal.vackeyboard
+      PRODUCT_NAME: VACKeyboard
+      INFOPLIST_FILE: VACKeyboard/Info.plist
+      CODE_SIGN_ENTITLEMENTS: VACKeyboard/VACKeyboard.entitlements
+      SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+      CODE_SIGN_STYLE: Automatic
+      DEVELOPMENT_TEAM: F9QLZ8V43M
+    dependencies:
+      - target: VACKeyboardExt
+        embed: true
+
+  # ── Keyboard Extension ──────────────────────────────────────────────────────
+  VACKeyboardExt:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "16.0"
+    bundleId: com.siyaagrawal.vackeyboard.ext
+    sources:
+      - path: VACKeyboardExt
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.siyaagrawal.vackeyboard.ext
+      PRODUCT_NAME: VACKeyboardExt
+      INFOPLIST_FILE: VACKeyboardExt/Info.plist
+      CODE_SIGN_ENTITLEMENTS: VACKeyboardExt/VACKeyboardExt.entitlements
+      SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+      CODE_SIGN_STYLE: Automatic
+      DEVELOPMENT_TEAM: F9QLZ8V43M
+      APPLICATION_EXTENSION_API_ONLY: "YES"

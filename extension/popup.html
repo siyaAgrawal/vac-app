@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VAC AI</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 280px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f8fbff, #edf4ff);
+      padding: 16px;
+    }
+    .logo {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      color: #10233d;
+      margin-bottom: 4px;
+    }
+    .tagline {
+      font-size: 11px;
+      color: #55708f;
+      margin-bottom: 14px;
+    }
+    .status-card {
+      background: #fff;
+      border: 1px solid rgba(155,188,232,0.45);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #ccc;
+      flex-shrink: 0;
+    }
+    .dot.ok { background: #22c55e; }
+    .dot.err { background: #ef4444; }
+    .dot.warn { background: #f97316; }
+    .status-label { font-size: 12px; font-weight: 600; color: #10233d; }
+    .status-sub { font-size: 11px; color: #55708f; }
+    .ip-box {
+      background: #f0f6ff;
+      border: 1px solid rgba(155,188,232,0.45);
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 8px;
+    }
+    .ip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #55708f; margin-bottom: 4px; }
+    .ip-val { font-size: 13px; font-weight: 700; color: #0077ff; font-family: monospace; }
+    .ip-hint { font-size: 10px; color: #7f9ab8; margin-top: 2px; }
+    .steps { margin-top: 10px; }
+    .step { font-size: 11px; color: #55708f; margin-bottom: 4px; display: flex; gap: 6px; }
+    .step-num { font-weight: 700; color: #0077ff; flex-shrink: 0; }
+    a { color: #0077ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="logo">VAC</div>
+  <div class="tagline">WhatsApp AI — keyboard layer</div>
+
+  <div class="status-card">
+    <div class="status-row">
+      <div class="dot" id="api-dot"></div>
+      <div>
+        <div class="status-label" id="api-label">Checking VAC…</div>
+        <div class="status-sub" id="api-sub">Connecting to localhost:8787</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ip-box">
+    <div class="ip-label">Phone URL</div>
+    <div class="ip-val" id="phone-url">Loading…</div>
+    <div class="ip-hint">Open this on your phone (same Wi-Fi)</div>
+  </div>
+
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><span>Open WhatsApp Web — suggestions appear below the chat input automatically</span></div>
+    <div class="step"><span class="step-num">2</span><span>For phone: open the URL above in Safari/Chrome on same Wi-Fi</span></div>
+    <div class="step"><span class="step-num">3</span><span>VAC must be running on your Mac for suggestions to work</span></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

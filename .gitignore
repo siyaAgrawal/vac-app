@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+data/keys.json
+
+# WhatsApp bridge — auth sessions & conversation data (private)
+data/.wwebjs_auth/
+data/.wwebjs_cache/
+.wwebjs_auth/
+.wwebjs_cache/
+data/whatsapp-memory/
+data/whatsapp-config.json
+data/whatsapp-replies/
+data/reply-record/
+data/reply-feedback.json
+data/keyboard-memory/
+data/test-run-*/
+
+# Claude settings (may contain local paths)
+.claude/settings.local.json
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# OS
+.DS_Store
+.DS_Store?
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Temp / local runtime
+/tmp/
+public/qr.png

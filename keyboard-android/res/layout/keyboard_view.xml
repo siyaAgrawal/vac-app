@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- VAC Keyboard suggestion bar — shown above the system keyboard -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#F2F4F8"
+    android:elevation="4dp">
+
+    <!-- Top divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#1A000000" />
+
+    <!-- Main row: VAC label + chips scroll + loading -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="6dp">
+
+        <!-- VAC Badge -->
+        <TextView
+            android:id="@+id/vac_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VAC"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="#0071E3"
+            android:letterSpacing="0.08"
+            android:paddingEnd="6dp" />
+
+        <!-- Status label (shown when no chips) -->
+        <TextView
+            android:id="@+id/vac_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="11sp"
+            android:textColor="#888888"
+            android:visibility="gone" />
+
+        <!-- Loading animation -->
+        <LinearLayout
+            android:id="@+id/vac_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:spacing="4dp">
+            <View android:layout_width="7dp" android:layout_height="7dp"
+                android:background="@drawable/dot" android:alpha="1.0" />
+            <View android:layout_width="7dp" android:layout_height="7dp"
+                android:background="@drawable/dot" android:alpha="0.4"
+                android:layout_marginStart="4dp" />
+            <View android:layout_width="7dp" android:layout_height="7dp"
+                android:background="@drawable/dot" android:alpha="0.2"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
+
+        <!-- Horizontal chip scroll -->
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            android:paddingStart="4dp">
+
+            <LinearLayout
+                android:id="@+id/vac_chips"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:spacing="8dp" />
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>
