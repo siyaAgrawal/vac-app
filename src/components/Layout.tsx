@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { APIKeySetup } from './APIKeySetup'
 import {
   Inbox, MessageSquareText, Sparkles, ListTodo, Activity,
   Brain, Clock, Wifi, Settings as SettingsIcon, Search, Bot,
@@ -51,8 +52,19 @@ export function Layout() {
   const { chats, activeId, setActiveId } = useChatContext()
   const [inspectorOpen, setInspectorOpen] = useState(false)
   const [q, setQ] = useState('')
+  const [showKeyBanner, setShowKeyBanner] = useState(false)
 
-  const title = useMemo(() => PAGE_TITLES[pathname] || 'Overview', [pathname])
+  useEffect(() => {
+    fetch('/api/health')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && !d.anthropic && d.ollama) setShowKeyBanner(true) })
+      .catch(() => {})
+  }, [])
+
+  const title = useMemo(() => {
+    if (pathname.startsWith('/c/')) return chats[pathname.slice(3)]?.label ?? 'Conversation'
+    return PAGE_TITLES[pathname] ?? 'VAC'
+  }, [pathname, chats])
 
   const chatList = useMemo(() => {
     const entries = Object.entries(chats).map(([id, chat]) => ({
@@ -253,7 +265,9 @@ export function Layout() {
         </header>
 
         {/* Content */}
-        <div className="flex flex-1 min-h-0">
+        <div className="flex flex-1 min-h-0 flex-col">
+          {showKeyBanner && <APIKeySetup onDismiss={() => setShowKeyBanner(false)} />}
+          <div className="flex flex-1 min-h-0">
           <main className="flex-1 min-w-0 overflow-hidden">
             <div className="h-full overflow-y-auto">
               <Outlet />
@@ -271,6 +285,7 @@ export function Layout() {
               </p>
             </aside>
           )}
+          </div>
         </div>
       </div>
     </div>

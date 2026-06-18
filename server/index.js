@@ -996,6 +996,63 @@ app.get('/api/keyboard/profile', (req, res) => {
   }
 })
 
+// ─── Suggest Now — instant reply intelligence ─────────────────────────────────
+
+app.post('/api/suggest-now', async (req, res) => {
+  const { chatId, message, sender, contactName } = req.body
+  if (!message && !chatId) return res.status(400).json({ error: 'message required' })
+  const id = chatId || `adhoc:${contactName || 'unknown'}`
+  // Truncate very long messages (forwarded stories, etc.) to keep inference fast
+  const trimmedMessage = (message || '').slice(0, 600)
+  try {
+    const result = await generateSuggestions({ chatId: id, message: trimmedMessage, sender: sender || contactName || 'them' })
+    res.json(result)
+  } catch (e) {
+    res.status(500).json({ error: e.message, suggestions: [] })
+  }
+})
+
+// ─── Relationship Pulse — per-thread health score ─────────────────────────────
+
+app.post('/api/relationship-pulse', async (req, res) => {
+  const { messages = [], contactName = '' } = req.body
+  if (!messages.length) return res.json({ score: 50, label: 'No data', breakdown: { recency: 50, tone: 50, balance: 50 }, lastActiveHoursAgo: 0 })
+
+  const lastMsg = messages[messages.length - 1]
+  const lastTs = lastMsg?.timestamp ? new Date(lastMsg.timestamp).getTime() : Date.now()
+  const hoursAgo = (Date.now() - lastTs) / 3600000
+  const recencyScore = hoursAgo < 1 ? 100 : hoursAgo < 6 ? 80 : hoursAgo < 24 ? 60 : hoursAgo < 72 ? 40 : 20
+
+  const recentText = messages.slice(-10).map(m => m.body || m.content || '').join(' ').toLowerCase()
+  const stressWords = (recentText.match(/urgent|asap|please|help|worried|need|angry|frustrated|hate|upset/g) || []).length
+  const warmWords = (recentText.match(/thanks|love|great|awesome|happy|excited|good|nice|well|appreciate/g) || []).length
+  const toneScore = Math.max(0, Math.min(100, 50 + warmWords * 8 - stressWords * 6))
+
+  const total = messages.length
+  const inbound = messages.filter(m => m.direction === 'in' || m.author !== 'Me').length
+  const outbound = total - inbound
+  const ratio = inbound > 0 ? outbound / inbound : 1
+  const balanceScore = Math.max(0, 100 - Math.abs(ratio - 1) * 40)
+
+  const overall = Math.round(recencyScore * 0.3 + toneScore * 0.4 + balanceScore * 0.3)
+  const label = overall >= 80 ? 'Thriving' : overall >= 60 ? 'Active' : overall >= 40 ? 'Needs attention' : 'Dormant'
+
+  res.json({ score: overall, label, breakdown: { recency: Math.round(recencyScore), tone: Math.round(toneScore), balance: Math.round(balanceScore) }, lastActiveHoursAgo: Math.round(hoursAgo), messageCount: total })
+})
+
+// ─── Improve Draft ────────────────────────────────────────────────────────────
+
+app.post('/api/improve-draft', async (req, res) => {
+  const { chatId, draft } = req.body
+  if (!draft) return res.status(400).json({ error: 'draft required' })
+  try {
+    const result = await improveDraft({ chatId: chatId || 'adhoc', draft })
+    res.json(result)
+  } catch (e) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
 // ─── Start ────────────────────────────────────────────────────────────────────
 
 app.listen(PORT, '0.0.0.0', () => {

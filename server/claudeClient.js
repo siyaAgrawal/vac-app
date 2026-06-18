@@ -154,7 +154,7 @@ export async function claudeComplete({ system, messages, maxTokens = 2048, smart
           max_tokens: maxTokens,
           stream: false,
         }),
-        signal: AbortSignal.timeout(timeoutMs ?? 30_000),
+        signal: AbortSignal.timeout(timeoutMs ?? 90_000),
       })
       if (!res.ok) {
         const err = await res.text()
