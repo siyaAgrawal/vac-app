@@ -2,6 +2,15 @@
 
 VAC is an AI-assisted communication workspace focused on WhatsApp conversations. Its primary product direction is now keyboard-first: VAC is meant to behave like an intelligent communication layer embedded directly into replying and typing, not just a dashboard or analytics tool. It helps a user import or live-connect chats, inspect message history, extract commitments, analyze tone, reason about relationship dynamics, and generate reply suggestions or auto-replies.
 
+## Product Reset
+
+The repository is currently being re-architected from a WhatsApp-first analysis tool into a universal communication operating system.
+
+Read the redesign blueprint here:
+
+- [VAC Universal Communication OS Redesign](docs/rearchitecture/VAC_UNIVERSAL_OS_REDESIGN.md)
+- [Target Repo Structure](docs/rearchitecture/TARGET_REPO_STRUCTURE.md)
+
 This repository contains:
 
 - A React + TypeScript + Vite frontend.

@@ -14,6 +14,10 @@ import { SettingsPage } from './pages/Settings'
 import { AutoReplyPage } from './pages/AutoReply'
 import { TestRunPage } from './pages/TestRun'
 import { KeyboardCompanion } from './pages/KeyboardCompanion'
+import { InboxPage } from './pages/Inbox'
+import { ConversationPage } from './pages/Conversation'
+import { ActionsPage } from './pages/Actions'
+import { MemoryPage } from './pages/Memory'
 
 export default function App() {
   return (
@@ -21,11 +25,13 @@ export default function App() {
     <ChatProvider>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/keyboard" element={<KeyboardCompanion />} />
+          <Route path="/" element={<InboxPage />} />
+          <Route path="/c/:threadId" element={<ConversationPage />} />
+          <Route path="/actions" element={<ActionsPage />} />
+          <Route path="/memory" element={<MemoryPage />} />
           <Route path="/chat" element={<ChatPage />} />
-          <Route path="/viewer" element={<WhatsAppViewer />} />
           <Route path="/commitments" element={<CommitmentsPage />} />
+          <Route path="/viewer" element={<WhatsAppViewer />} />
           <Route path="/tone" element={<ToneLab />} />
           <Route path="/psychology" element={<PsychologyPage />} />
           <Route path="/schedule" element={<SchedulePage />} />
@@ -33,6 +39,7 @@ export default function App() {
           <Route path="/auto-reply" element={<AutoReplyPage />} />
           <Route path="/test-run"   element={<TestRunPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/keyboard" element={<KeyboardCompanion />} />
         </Route>
       </Routes>
     </ChatProvider>

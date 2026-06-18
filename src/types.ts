@@ -107,3 +107,76 @@ export interface ChatMessage {
   timestamp: string
 }
 
+// ── Reply / Send Decision types ───────────────────────────────────────────────
+
+export type DraftMode = 'natural' | 'professional' | 'warm' | 'persuasive' | 'boundary'
+
+export interface TonePreview {
+  stress: number
+  urgency: number
+  politeness: number
+  anger: number
+  enthusiasm: number
+  warmth: number
+  dominant: string
+}
+
+export interface Draft {
+  mode: DraftMode
+  text: string
+  tonePreview: TonePreview
+  explanation: string
+  expectedOutcome: string
+  risks: string[]
+  lengthOk: boolean
+}
+
+export type RashWarningSeverity = 'info' | 'warning' | 'critical'
+
+export interface RashWarning {
+  severity: RashWarningSeverity
+  message: string
+}
+
+export interface NoReplyDecision {
+  shouldReply: boolean
+  reason?: string
+  signals: string[]
+}
+
+export interface SendStrategy {
+  shouldReply: boolean
+  realIntent: string
+  emotionalTemperature: string
+  relationshipGoal: string
+  approach: string
+  mustAddress: string[]
+  avoid: string[]
+  tonePlan: { warmth: number; directness: number; brevity: number }
+  confidence: number
+}
+
+export interface SendExplanation {
+  summary: string
+  intent: string
+  toneRead: string
+  whyThisStrategy: string
+}
+
+export interface SendHint {
+  bestWindow: string | null
+  canSendNow: boolean
+  reason: string
+}
+
+export interface SendDecision {
+  noReply: NoReplyDecision
+  drafts: Draft[]
+  strategy: SendStrategy
+  explanation: SendExplanation
+  sendHint: SendHint | null
+  warnings: RashWarning[]
+  strategyConfidence: number
+  generatedAt: string
+}
+

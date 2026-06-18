@@ -1,32 +1,34 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useMemo, useState } from 'react'
 import {
-  LayoutGrid, MessageSquareText, Sparkles, ListTodo, Activity,
+  Inbox, MessageSquareText, Sparkles, ListTodo, Activity,
   Brain, Clock, Wifi, Settings as SettingsIcon, Search, Bot,
-  FlaskConical, Keyboard, Radio, Sun, Moon, PanelRight, PanelRightClose,
-  Command as CmdIcon,
+  FlaskConical, Keyboard, Sun, Moon, PanelRight, PanelRightClose,
+  Command as CmdIcon, Zap,
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useChatContext } from '../context/ChatContext'
 
-const NAV = [
-  { to: '/',            label: 'Overview',     icon: LayoutGrid       },
-  { to: '/keyboard',    label: 'Keyboard',     icon: Keyboard         },
-  { to: '/viewer',      label: 'Conversations',icon: MessageSquareText},
-  { to: '/chat',        label: 'Assistant',    icon: Sparkles         },
-  { to: '/commitments', label: 'Commitments',  icon: ListTodo         },
-  { to: '/tone',        label: 'Tone',         icon: Activity         },
-  { to: '/psychology',  label: 'Psychology',   icon: Brain            },
-  { to: '/schedule',    label: 'Scheduling',   icon: Clock            },
-  { to: '/live',        label: 'Live Bridge',  icon: Wifi             },
-  { to: '/auto-reply',  label: 'Auto-Reply',   icon: Bot              },
-  { to: '/test-run',    label: 'Test Run',     icon: FlaskConical     },
+const NAV_PRIMARY = [
+  { to: '/',         label: 'Inbox',         icon: Inbox             },
+  { to: '/viewer',   label: 'Conversations', icon: MessageSquareText },
+  { to: '/actions',  label: 'Actions',       icon: Zap               },
+  { to: '/memory',   label: 'Memory',        icon: Brain             },
+  { to: '/chat',     label: 'Assistant',     icon: Sparkles          },
+]
+
+const NAV_SECONDARY = [
+  { to: '/live',       label: 'Live Bridge', icon: Wifi      },
+  { to: '/auto-reply', label: 'Auto-Reply',  icon: Bot       },
+  { to: '/keyboard',   label: 'Keyboard',    icon: Keyboard  },
+  { to: '/settings',   label: 'Settings',    icon: SettingsIcon },
 ]
 
 const PAGE_TITLES: Record<string, string> = {
-  '/':            'Overview',
-  '/keyboard':    'Keyboard',
+  '/':            'Inbox',
   '/viewer':      'Conversations',
+  '/actions':     'Actions',
+  '/memory':      'Memory',
   '/chat':        'Assistant',
   '/commitments': 'Commitments',
   '/tone':        'Tone',
@@ -36,6 +38,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/auto-reply':  'Auto-Reply',
   '/test-run':    'Test Run',
   '/settings':    'Settings',
+  '/keyboard':    'Keyboard',
 }
 
 function cn(...classes: (string | boolean | undefined)[]) {
@@ -79,7 +82,36 @@ export function Layout() {
         {/* Primary nav */}
         <nav className="px-3 pb-2">
           <ul className="space-y-0.5">
-            {NAV.map((n) => {
+            {NAV_PRIMARY.map((n) => {
+              const Icon = n.icon
+              const active = pathname === n.to
+              return (
+                <li key={n.to}>
+                  <NavLink
+                    to={n.to}
+                    className={cn(
+                      'group flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] transition-colors duration-150',
+                      active
+                        ? 'bg-secondary text-foreground'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60',
+                    )}
+                  >
+                    <Icon
+                      className={cn('h-[16px] w-[16px] shrink-0', active && 'text-foreground')}
+                      strokeWidth={1.6}
+                    />
+                    <span className="flex-1 truncate">{n.label}</span>
+                  </NavLink>
+                </li>
+              )
+            })}
+          </ul>
+
+          {/* Divider */}
+          <div className="my-2 border-t border-border" />
+
+          <ul className="space-y-0.5">
+            {NAV_SECONDARY.map((n) => {
               const Icon = n.icon
               const active = pathname === n.to
               return (
@@ -160,21 +192,6 @@ export function Layout() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-border px-3 py-2">
-          <NavLink
-            to="/settings"
-            className={cn(
-              'flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] transition-colors',
-              pathname === '/settings'
-                ? 'bg-secondary text-foreground'
-                : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60',
-            )}
-          >
-            <SettingsIcon className="h-[16px] w-[16px]" strokeWidth={1.6} />
-            <span>Settings</span>
-          </NavLink>
-        </div>
       </aside>
 
       {/* ── Main ──────────────────────────────────────────────── */}
