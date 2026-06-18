@@ -28,6 +28,7 @@ data/test-run-*/
 
 # Claude settings (may contain local paths)
 .claude/settings.local.json
+.claude/worktrees/
 
 # Logs
 *.log
